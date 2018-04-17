@@ -13,14 +13,13 @@ class neuralNetwork(object):
       pass
 
 
-
    def printNetwork(self):
       return NotImplementedError
 
    '''
       Adding a layer to the network
    '''
-   def addLayer(self, inputs, num_outputs, activation_fn=None):
+   def addLayer(self, layer, activation_fn=None):
 
       pass
 
@@ -28,7 +27,7 @@ class neuralNetwork(object):
    '''
       Trains the model
    '''
-   def train(self, learning_rate=1e-4, batch_size=4, epochs=2):
+   def train(self, data, labels, learning_rate=1e-4, batch_size=4, epochs=2):
       pass
 
 
