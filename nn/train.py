@@ -46,8 +46,8 @@ if __name__ == '__main__':
 
    # define the layers
    input_layer   = Layer(2, input_=True, name='input_layer')
-   hidden_layer1 = Layer(2, name='hidden_layer1')
-   output_layer  = Layer(1, output_=True, name='output_layer')
+   hidden_layer1 = Layer(3, previous_layer=input_layer, name='hidden_layer1')
+   output_layer  = Layer(1, previous_layer=hidden_layer1, output_=True, name='output_layer')
 
    # add layers to the network
    network.addLayer(input_layer)
