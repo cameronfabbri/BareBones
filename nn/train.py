@@ -18,18 +18,19 @@ import matplotlib.pyplot as plt
 # import my nn class
 from network import neuralNetwork as nn
 from layer import Layer
+import activation_functions as ac
 
 def download():
    # mnist data in gz format
    url = 'http://deeplearning.net/data/mnist/mnist.pkl.gz'
 
-   print 'Downloading mnist...'
+   print('Downloading mnist...')
    with open('mnist.pkl.gz', 'wb') as f:
       r = requests.get(url)
       if r.status_code == 200:
          f.write(r.content)
       else:
-         print 'Could not connect to ', url
+         print('Could not connect to ', url)
 
 if __name__ == '__main__':
 
@@ -40,17 +41,14 @@ if __name__ == '__main__':
    #   train_set, val_set, test_set = pickle.load(f)
    #except: download()
 
-   # initialize an empty network
-   #network = nn(784, 10)
-
    # dummy data
    #data = np.asarray([[0,1], [1,0], [1,1], [0,0]])
    #labels = np.asarray([[1], [1], [0], [0]])
    
    X, y = sklearn.datasets.make_moons(200, noise=0.20)
-   print X.shape
-   print X[0].shape
-   exit()
+   print('input shape:',X.shape)
+   #print X[0].shape
+   #exit()
    #plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
    
    network = nn()
@@ -62,16 +60,10 @@ if __name__ == '__main__':
 
    # add layers to the network
    network.addLayer(input_layer)
-   network.addLayer(hidden_layer)
+   network.addLayer(hidden_layer1)
    network.addLayer(output_layer)
 
-   
-
-
-
-   exit()
-
-   network.train(data, labels)
+   network.train(X, y)
 
 
 
