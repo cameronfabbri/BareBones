@@ -46,9 +46,7 @@ if __name__ == '__main__':
    #labels = np.asarray([[1], [1], [0], [0]])
    
    X, y = sklearn.datasets.make_moons(200, noise=0.20)
-   print('input shape:',X.shape)
-   #print X[0].shape
-   #exit()
+   print('input shape:',X.shape) # (200, 2) - 200 samples with 2 dims each
    #plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
    
    network = nn()
