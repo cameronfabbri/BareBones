@@ -5,6 +5,8 @@ import numpy as np
 
    Class for a decision tree
 
+   Want a train() or fit() method
+
 '''
 class decisionTree(object):
 
@@ -15,7 +17,9 @@ class decisionTree(object):
 class node(object):
 
    def __init__(self):
-      self.value = ''
+      self.value    = ''
+      self.positive = []
+      self.negative = []
 
    
 
