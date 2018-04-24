@@ -28,12 +28,12 @@ def readData(filename):
    with open(filename) as f:
       for line in f:
          line    = line.rstrip().replace(' ','').split(',')
+         print line
          line    = [data_dict[x] for x in line]
          feature = line[:-1]
          label   = line[-1]
          features.append(feature)
          labels.append(label)
-
    return features, labels
 
 if __name__ == '__main__':

@@ -34,13 +34,19 @@ class node(object):
    def getChildren(self):
       return self.children
 
+   '''
+      Create a leaf labeled by majority class in X
+   '''
+   def getEntropy(self):
+      pass
+
+
+
 d = decisionTree()
 
 root = node(5)
 
 root.insertNode(node(4))
-
-
 print root.getChildren()[0].value
 
 
