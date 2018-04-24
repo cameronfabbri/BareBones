@@ -27,4 +27,3 @@ class node(object):
 d = decisionTree()
 
 print d.depth
-
