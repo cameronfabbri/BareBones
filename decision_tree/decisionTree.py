@@ -34,32 +34,23 @@ class decisionTree(object):
          and calculate impurity
       '''
       for feature in features.T:
-         num_features = len(set(feature))
+         
          print 'f:',feature
          print 'l:',labels
 
-         # number of unique features
-         num = len(set(feature))
+         # just keep track of True, then num false is total-numTrue
+         total = len(feature)
+         numU  = len(set(feature))
 
-         # need to count the number of pos/neg for each feature - create a matrix
-         #     | f1 | f2 |
-         # yes | 3  | 1  |
-         # no  | 2  | 3  |
-         
-         data = np.zeros((2, num))
+         # create empty dictionary
+         d = {}
+         for f in set(feature):
+            d[f] = 0
 
-         print data
-         for f in feature:
-            for l in labels:
-               if l == 0:
-                  
-                  data[f][0] += 1
-                  print data
-               elif l == 1:
-                  data[f][1] +=1
-                  print data
-               print
-         print data
+         # this dictionary contains the number of times each feature resulted in true
+         for f,l in zip(feature, labels):
+            if l == 1:
+               d[f] += 1
          
          exit()
       exit()
