@@ -1,4 +1,5 @@
 import numpy as np
+from decisionTree import *
 
 data_dict = {
    'Yes':1,
@@ -28,20 +29,27 @@ def readData(filename):
    with open(filename) as f:
       for line in f:
          line    = line.rstrip().replace(' ','').split(',')
-         print line
+         #print line
          line    = [data_dict[x] for x in line]
          feature = line[:-1]
          label   = line[-1]
          features.append(feature)
          labels.append(label)
-   return features, labels
+   return np.asarray(features), np.asarray(labels)
 
 if __name__ == '__main__':
 
    features, labels = readData('restaurant.csv')
 
-   i = 0
-   for f in features:
-      print str(f)+': '+str(labels[i])
-      i += 1
+   #i = 0
+   #for f in features:
+   #   print str(f)+': '+str(labels[i])
+   #   i += 1
+
+   d = decisionTree()
+   d.fit(features, labels)
+
+   
+
+   
 
