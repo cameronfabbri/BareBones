@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 
 '''
 
@@ -19,10 +19,26 @@ class decisionTree(object):
       pass
 
 
-   def getImpurity(self):
-      pass
-   
-   
+   def getImpurity(self, d):
+      
+      # get total number of data points
+      nm = 0.0
+      for key in d:
+         val1,val2 = d[key]
+         nm = nm + val1 + val2
+
+      #inner = inner + (t/(f+t))*math.log(t/(f+t), 2.0)
+      #impurity = impurity + outter*inner
+      
+      impurity = 0.0
+      for key in d:
+         nmj = sum(d[key])
+         outter = -(nmj/nm)
+         inner  = 0.0
+
+         
+
+
    '''
       Creates a decision tree
    '''
@@ -33,26 +49,41 @@ class decisionTree(object):
          are (boolean or not). Then count how many have yes, how many have no,
          and calculate impurity
       '''
+
+      # keep a dictionary of impurities for all features - pick smallest as root node
+      impur = {}
+
       for feature in features.T:
          
-         print 'f:',feature
-         print 'l:',labels
+         #print('f:',feature)
+         #print('l:',labels)
 
-         # just keep track of True, then num false is total-numTrue
          total = len(feature)
          numU  = len(set(feature))
 
          # create empty dictionary
          d = {}
          for f in set(feature):
-            d[f] = 0
+            d[f] = [0,0] # [T,F]
 
          # this dictionary contains the number of times each feature resulted in true
          for f,l in zip(feature, labels):
+            # label is true
             if l == 1:
-               d[f] += 1
-         
-         exit()
+               v = d[f]
+               v[0] += 1
+               d[f] = v
+            # label is false
+            if l == 0:
+               v = d[f]
+               v[1] += 1
+               d[f] = v
+
+         impurity = self.getImpurity(d)
+
+         print(impurity)
+         print()
+
       exit()
 
 '''
