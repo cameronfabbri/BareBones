@@ -54,7 +54,6 @@ class decisionTree(object):
 
       # keep a dictionary of impurities for all features - pick smallest as root node
       impur = {}
-
       for feature in features.T:
          
          total = len(feature)
@@ -79,6 +78,13 @@ class decisionTree(object):
                d[f] = v
 
          impurity = self.getImpurity(d)
+
+      '''
+         Now that we have the feature with the smallest impurity,
+         we want to construct that as a node and split on that feature.
+      '''
+
+
 
 
 class node(object):
