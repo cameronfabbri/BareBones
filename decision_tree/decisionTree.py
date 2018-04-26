@@ -18,10 +18,12 @@ class decisionTree(object):
       self.depth  = depth
       self.method = method
 
-
-   def isPure(node, epsilon=1e-4):
-      pass
-
+   '''
+      Checks if a node is pure or not up to some threshold epsilon
+   '''
+   def isPure(self, x, epsilon=1e-4):
+      if min(x)/max(x) < epsilon: return True
+      return False
 
    def getImpurity(self, d):
       # get total number of data points
@@ -109,13 +111,22 @@ class decisionTree(object):
       root.isRoot = True
       root.value  = minIdx
 
+      # featureVals are numerical representations of the strings like None, Some, Full, etc
       featureVals = list(set(minFeature))
       # for each featureVal, create a node and attach it to the root
       for fv in featureVals:
          n = Node()
          n.edge = fv # set the edge to the feature value
+         
+         print(minD[fv])
+         
+         # if it's not a leaf, then we recurse on the feature that isn't a leaf
+         if self.isPure(minD[fv]):
+            print('node is pure')
+         else: print('node is NOT pure')
+         exit()
+
          root.insertNode(n)
-         # how do we know if it's a leaf or not?
          
       
       
