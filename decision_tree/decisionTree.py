@@ -92,6 +92,8 @@ class decisionTree(object):
             minIdx     = f_idx
 
             # here keep some info on the number of true/false so we can calculate if leaf
+            print(d)
+            exit()
 
       '''
          Now that we have the feature with the smallest impurity,
