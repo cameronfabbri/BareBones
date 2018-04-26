@@ -88,8 +88,10 @@ class decisionTree(object):
          impur[f_idx] = [impurity, feature]
          if impurity < minImp:
             minFeature = feature
-            minImp = impurity
-            minIdx = f_idx
+            minImp     = impurity
+            minIdx     = f_idx
+
+            # here keep some info on the number of true/false so we can calculate if leaf
 
       '''
          Now that we have the feature with the smallest impurity,
@@ -110,11 +112,12 @@ class decisionTree(object):
          n = Node()
          n.edge = fv # set the edge to the feature value
          root.insertNode(n)
-
+         # how do we know if it's a leaf or not?
+         
       
       
       for n in root.getChildren():
-         print(n)
+         print(n.edge)
       exit()
 
 
