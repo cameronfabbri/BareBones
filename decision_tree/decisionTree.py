@@ -99,28 +99,31 @@ class decisionTree(object):
       print(minFeature)
       print(minImp)
 
-      # create a root node
-      root = node()
+      # create a root node - a node's value is the feature name
+      root = Node()
       root.isRoot = True
-      root.value = minIdx
+      root.value  = minIdx
 
       featureVals = list(set(minFeature))
       # for each featureVal, create a node and attach it to the root
       for fv in featureVals:
-         n = node()
-         n.edge = fv
+         n = Node()
+         n.edge = fv # set the edge to the feature value
          root.insertNode(n)
 
-      print(root.getChildren())
+      
+      
+      for n in root.getChildren():
+         print(n)
       exit()
 
 
 
 
 '''
-   For all nodes, the value of the edge is stored in the parent
+   For all Nodes, the value of the edge is stored in the parent
 '''
-class node(object):
+class Node(object):
 
    def __init__(self):
       self.children = []

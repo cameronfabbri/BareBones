@@ -40,14 +40,6 @@ if __name__ == '__main__':
 
    features, labels = readData('restaurant.csv')
 
-   #i = 0
-   #for f in features:
-   #   print str(f)+': '+str(labels[i])
-   #   i += 1
    d = decisionTree()
    d.fit(features, labels)
-
-   
-
-   
 
