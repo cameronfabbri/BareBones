@@ -28,12 +28,11 @@ class decisionTree(object):
          nm = nm + val1 + val2
 
       impurity = 0.0
-      for counter, key in enumerate(d):
+      for key in d:
          nmj = sum(d[key])
          outter = -(nmj/nm)
          inner  = 0.0
-         for e in d[key] and counter == 0:
-            # if we have a probability of 0 for the yes, then return 0 for this one
+         for e in d[key]:
             if e == 0:
                outter = 0.0
                break
