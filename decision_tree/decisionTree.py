@@ -27,6 +27,9 @@ class decisionTree(object):
          val1,val2 = d[key]
          nm = nm + val1 + val2
 
+      print(d)
+      print(nm)
+      print()
       #inner = inner + (t/(f+t))*math.log(t/(f+t), 2.0)
       #impurity = impurity + outter*inner
       
@@ -35,9 +38,16 @@ class decisionTree(object):
          nmj = sum(d[key])
          outter = -(nmj/nm)
          inner  = 0.0
+         for e in d[key]:
+            print('e:',e)
+            if e == 0:
+               outter = 0.0
+               break
+            inner = inner + (e/nmj)*math.log((e/nmj),2.0)
 
+         impurity += outter*inner
          
-
+      return impurity
 
    '''
       Creates a decision tree
