@@ -92,16 +92,17 @@ class decisionTree(object):
             minIdx     = f_idx
 
             # here keep some info on the number of true/false so we can calculate if leaf
-            print(d)
-            exit()
+            minD = d
 
+      print()
       '''
          Now that we have the feature with the smallest impurity,
          we want to construct that as a node and split on that feature.
       '''
-      print(minIdx)
-      print(minFeature)
-      print(minImp)
+      print('index:',minIdx)
+      print('minFeature:',minFeature)
+      print('impurity:',minImp)
+      print('d:',minD)
 
       # create a root node - a node's value is the feature name
       root = Node()
