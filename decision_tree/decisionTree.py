@@ -1,5 +1,9 @@
+from __future__ import division
+from __future__ import absolute_import
+
 import numpy as np
 import math
+
 
 '''
 
@@ -43,25 +47,26 @@ class decisionTree(object):
 
    '''
       Creates a decision tree
+
+      1. Find impurity for all remaining features
+      2. Split on feature with least impurity
+      3. 
    '''
    def fit(self, features, labels):
 
-      '''
-         go through each individual feature and count how many variations there
-         are (boolean or not). Then count how many have yes, how many have no,
-         and calculate impurity
-      '''
-
       # keep a dictionary of impurities for all features - pick smallest as root node
       impur = {}
-      for feature in features.T:
+      minImp = float('inf')
+
+      for f_idx, feature in enumerate(features.T):
          
          total = len(feature)
          numU  = len(set(feature))
+         featureVals = list(set(feature))
 
          # create empty dictionary
          d = {}
-         for f in set(feature):
+         for f in featureVals:
             d[f] = [0,0] # [T,F]
 
          # this dictionary contains the number of times each feature resulted in true
@@ -78,24 +83,53 @@ class decisionTree(object):
                d[f] = v
 
          impurity = self.getImpurity(d)
+         print(impurity)
+
+         impur[f_idx] = [impurity, feature]
+         if impurity < minImp:
+            minFeature = feature
+            minImp = impurity
+            minIdx = f_idx
 
       '''
          Now that we have the feature with the smallest impurity,
          we want to construct that as a node and split on that feature.
       '''
+      print(minIdx)
+      print(minFeature)
+      print(minImp)
 
+      # create a root node
+      root = node()
+      root.isRoot = True
+
+      featureVals = list(set(minFeature))
+      # for each featureVal, create a node and attach it to the root
+      for fv in featureVals:
+         n = node()
+         n.edge = fv
+         root.insertNode(n)
+
+      print(root.getChildren())
+      exit()
+
+
+# needs to have a concept of an edge
+class leaf(object):
+
+   def __init__(self, value):
+      self.value  = value
+      self.parent = []
 
 
 
 class node(object):
 
-   def __init__(self, value):
-      self.value    = value
-      self.positive = []
-      self.negative = []
+   def __init__(self):
+      self.edge     = None
       self.children = []
       self.parent   = []
-      self.root     = False
+      self.isRoot   = False
    
    def insertNode(self, obj):
       self.children.append(obj)
@@ -103,14 +137,6 @@ class node(object):
    def getChildren(self):
       return self.children
 
-
    
 
-
-'''
-d = decisionTree()
-root = node(5)
-root.insertNode(node(4))
-print root.getChildren()[0].value
-'''
-
+   

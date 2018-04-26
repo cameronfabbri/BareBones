@@ -15,9 +15,9 @@ data_dict = {
    'Burger':2,
    'Italian':3,
    '0-10':0,
-   '10-30':0,
-   '30-60':0,
-   '>60':0,
+   '10-30':1,
+   '30-60':2,
+   '>60':3,
    }
 
 '''
@@ -29,7 +29,6 @@ def readData(filename):
    with open(filename) as f:
       for line in f:
          line    = line.rstrip().replace(' ','').split(',')
-         #print line
          line    = [data_dict[x] for x in line]
          feature = line[:-1]
          label   = line[-1]
@@ -45,7 +44,6 @@ if __name__ == '__main__':
    #for f in features:
    #   print str(f)+': '+str(labels[i])
    #   i += 1
-
    d = decisionTree()
    d.fit(features, labels)
 
