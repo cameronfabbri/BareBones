@@ -102,6 +102,7 @@ class decisionTree(object):
       # create a root node
       root = node()
       root.isRoot = True
+      root.value = minIdx
 
       featureVals = list(set(minFeature))
       # for each featureVal, create a node and attach it to the root
@@ -114,23 +115,21 @@ class decisionTree(object):
       exit()
 
 
-# needs to have a concept of an edge
-class leaf(object):
-
-   def __init__(self, value):
-      self.value  = value
-      self.parent = []
 
 
-
+'''
+   For all nodes, the value of the edge is stored in the parent
+'''
 class node(object):
 
    def __init__(self):
-      self.edge     = None
       self.children = []
       self.parent   = []
       self.isRoot   = False
-   
+      self.isLeaf   = False
+      self.value    = None
+      self.edge     = None
+
    def insertNode(self, obj):
       self.children.append(obj)
 
