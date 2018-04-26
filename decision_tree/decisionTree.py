@@ -20,7 +20,6 @@ class decisionTree(object):
 
 
    def getImpurity(self, d):
-      
       # get total number of data points
       nm = 0.0
       for key in d:
@@ -58,9 +57,6 @@ class decisionTree(object):
 
       for feature in features.T:
          
-         #print('f:',feature)
-         #print('l:',labels)
-
          total = len(feature)
          numU  = len(set(feature))
 
@@ -84,24 +80,6 @@ class decisionTree(object):
 
          impurity = self.getImpurity(d)
 
-         print(impurity)
-         print()
-
-      exit()
-
-'''
-class V(object):
-   def __init__(self, f, num_t, num_f):
-      self.f = f
-      self.num_t = num_t
-      self.num_f = num_f
-
-   def increase(self, b):
-      if b == 'positive':
-         self.num_t += 1
-      elif b == 'negative':
-         self.num_f += 1
-'''
 
 class node(object):
 
