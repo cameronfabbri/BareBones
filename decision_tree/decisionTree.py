@@ -118,15 +118,18 @@ class decisionTree(object):
          n = Node()
          n.edge = fv # set the edge to the feature value
          
-         print(minD[fv])
-         
          # if it's not a leaf, then we recurse on the feature that isn't a leaf
          if self.isPure(minD[fv]):
-            print('node is pure')
-         else: print('node is NOT pure')
+            print('Node is pure, inserting as a leaf')
+            n.isLeaf = True
+            n.value  = np.argmax(minD[fv])
+            print(minD)
+            print(n.value)
+            exit()
+            root.insertNode(n)
+         else:
+            print('node is NOT pure')
          exit()
-
-         root.insertNode(n)
          
       
       
