@@ -18,7 +18,6 @@ class decisionTree(object):
       self.depth  = depth
       self.method = method
       self.tree   = False
-      self.rootNode = None
 
    '''
       Checks if a node is pure or not up to some threshold epsilon
@@ -44,9 +43,7 @@ class decisionTree(object):
                outter = 0.0
                break
             inner = inner + (e/nmj)*math.log((e/nmj),2.0)
-
          impurity += outter*inner
-         
       return impurity
 
    '''
@@ -100,7 +97,6 @@ class decisionTree(object):
       Creates a decision tree
       1. Find impurity for all remaining features
       2. Split on feature with least impurity
-      3. 
    '''
    def fit(self, features, labels):
       '''
@@ -118,7 +114,6 @@ class decisionTree(object):
          root.isRoot = True
          root.value  = minIdx
          self.tree   = True
-         self.rootNode = root
       else:
          print('Existing tree, current root:',root)
          minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
@@ -126,13 +121,13 @@ class decisionTree(object):
          root.value  = minIdx
 
       # TODO need to figure out this floating root variable
-      print('root value:',root.value)
-
+      
       # need to remove the feature split on from the feature array
       if features.shape[1] == 1:
          print('Done')
          exit()
 
+      # get rid of the feature
       start = features[:,:minIdx]
       end   = features[:,minIdx+1:]
       features = np.concatenate([start, end], axis=1)
