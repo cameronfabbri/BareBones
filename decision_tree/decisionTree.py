@@ -99,7 +99,9 @@ class decisionTree(object):
       # remove the feature we decided to split on
       features = self.removeF(features, minIdx)
 
-      if features.shape[1] == 1: pass
+      if features.shape[1] == 1:
+         print('no more features to split on')
+         pass
       else:
          print('current_root:',current_root.value)
 
@@ -114,27 +116,15 @@ class decisionTree(object):
                n.value = np.argmax(minD[fv])
                current_root.insertNode(n)
             else:
-               #TODO - ended here
                print('Node',minD[fv],'is NOT pure, inserting then recursing.')
                current_root.insertNode(n)
+               n.value = minIdx # this may be messed up because the indexs change I think
                current_root = n
                self.buildTree(current_root, features, labels)
 
 
-
-
-
-   '''
-      Creates a decision tree
-      1. Find impurity for all remaining features
-      2. Split on feature with least impurity
-   '''
    def fit(self, features, labels):
       
-      #if not self.isTree():
-      #print('No tree, creating root...')
-      # node is created by default to not be a leaf
-
       # create a root node
       root = Node()
       root.isRoot = True
@@ -147,7 +137,7 @@ class decisionTree(object):
       # now that we have a root node, need to recursively insert children
       self.buildTree(root, features, labels)
 
-      print(root.getChildren())
+      #print(root.getChildren())
       print('Done!')
       exit()
 
