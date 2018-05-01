@@ -79,8 +79,7 @@ class decisionTree(object):
          if impurity < minImp:
             minFeature = feature
             minImp     = impurity
-            #minIdx     = f_idx
-            minIdx = self.fdict[feature]
+            minIdx     = f_idx
             print(minIdx)
             exit()
             minD       = d
@@ -152,13 +151,13 @@ class decisionTree(object):
 class Node(object):
 
    def __init__(self):
-      self.children = []
-      self.parent   = []
-      self.branchValues = []
-      self.isRoot   = False
-      self.isLeaf   = False
-      self.value    = None # 0 or 1 if it is a leaf
-      self.edge     = None
+      self.children = [] # the children of the node
+      self.parent   = [] # the (single) parent of the node
+      self.branchValues = [] # values of the child branches which are the values of the features like full, some, none
+      self.isRoot   = False # if it is the main root node of the entire tree
+      self.isLeaf   = False # if it is a leaf node or not, meaning it is pure
+      self.value    = None # contains the numerical value of the feature (0 for No, etc), or a 0 or 1 if it is a leaf
+      self.edge     = None # single value of the only edge coming into the node
 
    def insertNode(self, obj):
       self.children.append(obj)
