@@ -52,8 +52,6 @@ class decisionTree(object):
       Given features and labels, finds the feature to split on
    '''
    def findFeature(self, features, labels):
-      # keep a dictionary of impurities for all features - pick smallest as root node
-      impur = {}
       minImp = float('inf')
       for f_idx, feature in enumerate(features.T):
          total = len(feature)
@@ -75,13 +73,10 @@ class decisionTree(object):
                v[1] += 1
                d[f] = v
          impurity = self.getImpurity(d)
-         impur[f_idx] = [impurity, feature]
          if impurity < minImp:
             minFeature = feature
             minImp     = impurity
             minIdx     = f_idx
-            print(minIdx)
-            exit()
             minD       = d
       return minFeature, minImp, minIdx, minD
 
