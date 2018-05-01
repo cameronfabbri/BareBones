@@ -17,6 +17,7 @@ class decisionTree(object):
    def __init__(self, depth=4, method='classification'):
       self.depth  = depth
       self.method = method
+      self.tree   = True
 
    '''
       Checks if a node is pure or not up to some threshold epsilon
@@ -48,14 +49,9 @@ class decisionTree(object):
       return impurity
 
    '''
-      Creates a decision tree
-
-      1. Find impurity for all remaining features
-      2. Split on feature with least impurity
-      3. 
+      Given features and labels, finds the feature to split on
    '''
-   def fit(self, features, labels):
-
+   def findFeature(self, features, labels):
       # keep a dictionary of impurities for all features - pick smallest as root node
       impur = {}
       minImp = float('inf')
@@ -92,11 +88,49 @@ class decisionTree(object):
             minFeature = feature
             minImp     = impurity
             minIdx     = f_idx
+            minD       = d
 
-            # here keep some info on the number of true/false so we can calculate if leaf
-            minD = d
+      return minFeature, minImp, minIdx, minD
 
-      print()
+
+   def isEmpty(self):
+      return self.tree
+
+   '''
+      Creates a decision tree
+      1. Find impurity for all remaining features
+      2. Split on feature with least impurity
+      3. 
+   '''
+   def fit(self, features, labels):
+      '''
+         get root node of the entire tree. From here we will recurse down
+         create a root node - a node's value is the feature name
+         I think here we should check if the tree is empty. If it is, then
+         create a true root node. If not, then create another node, but have
+         it be the 'root', as in we will be inserting children to that node.
+      '''
+      if self.isEmpty():
+         print('no tree, creating root')
+
+         minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+         root = Node()
+         root.isRoot = True
+         root.value  = minIdx
+         self.tree = True
+      else:
+         minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+         root = Node()
+         root.value  = minIdx
+         self.tree = True
+
+
+      # need to remove the feature split on from the feature array
+      start = features[:,:minIdx]
+      end   = features[:,minIdx+1:]
+      features = np.concatenate([start, end], axis=1)
+
+
       '''
          Now that we have the feature with the smallest impurity,
          we want to construct that as a node and split on that feature.
@@ -104,38 +138,36 @@ class decisionTree(object):
       print('index:',minIdx)
       print('minFeature:',minFeature)
       print('impurity:',minImp)
-      print('d:',minD)
+      print('d:',minD,'\n')
 
-      # create a root node - a node's value is the feature name
-      root = Node()
-      root.isRoot = True
-      root.value  = minIdx
-
-      # featureVals are numerical representations of the strings like None, Some, Full, etc
+      # featureVals are numerical representations of the strings like None, Some, Full, et
       featureVals = list(set(minFeature))
-      # for each featureVal, create a node and attach it to the root
+
+      # for each featureVal, create a node and attach it to the root - if it isn't a leaf, call function
       for fv in featureVals:
          n = Node()
          n.edge = fv # set the edge to the feature value
-         
-         # if it's not a leaf, then we recurse on the feature that isn't a leaf
+
+         '''
+            Here the node is pure, so we insert it as a binary leaf node.
+            We 
+         '''
          if self.isPure(minD[fv]):
             print('Node is pure, inserting as a leaf')
             n.isLeaf = True
             n.value  = np.argmax(minD[fv])
-            print(minD)
-            print(n.value)
-            exit()
+            #print(minD)
+            #print(n.value)
             root.insertNode(n)
+
+
          else:
-            print('node is NOT pure')
-         exit()
+            # need to find next feature to split on - probably want to recurse
+            print('node is NOT pure...splitting on best feature')
+            self.fit(features, labels)
          
-      
-      
       for n in root.getChildren():
          print(n.edge)
-      exit()
 
 
 

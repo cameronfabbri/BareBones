@@ -40,6 +40,9 @@ if __name__ == '__main__':
 
    features, labels = readData('restaurant.csv')
 
+   features = np.asarray(features)
+   labels = np.asarray(labels)
+
    d = decisionTree()
    d.fit(features, labels)
 
