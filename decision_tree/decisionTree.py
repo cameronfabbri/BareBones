@@ -127,9 +127,6 @@ class decisionTree(object):
 
    def fit(self, features, labels):
 
-      # need to keep a dictionary of index:feature
-      # because we delete things from the feature list
-
       # create a root node
       root = Node()
       root.isRoot = True
@@ -147,7 +144,7 @@ class decisionTree(object):
       exit()
 
 
-# For all Nodes, the value of the edge is stored in the parent
+# For all Nodes, the value of the edge is stored in the parent.
 class Node(object):
 
    def __init__(self):

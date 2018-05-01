@@ -46,6 +46,7 @@ if __name__ == '__main__':
    d = decisionTree()
    print(features)
    print()
+   exit()
    d.fit(features, labels)
 
    d.test(features, labels)
