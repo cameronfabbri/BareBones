@@ -19,6 +19,9 @@ class decisionTree(object):
       self.method = method
       self.tree   = False
 
+   def test(features, labels):
+      return NotImplementedError
+
    '''
       Checks if a node is pure or not up to some threshold epsilon
    '''
@@ -32,7 +35,6 @@ class decisionTree(object):
       for key in d:
          val1,val2 = d[key]
          nm = nm + val1 + val2
-
       impurity = 0.0
       for key in d:
          nmj = sum(d[key])
@@ -53,18 +55,13 @@ class decisionTree(object):
       # keep a dictionary of impurities for all features - pick smallest as root node
       impur = {}
       minImp = float('inf')
-
       for f_idx, feature in enumerate(features.T):
-         
          total = len(feature)
          numU  = len(set(feature))
          featureVals = list(set(feature))
-
-         # create empty dictionary
          d = {}
          for f in featureVals:
             d[f] = [0,0] # [T,F]
-
          # this dictionary contains the number of times each feature resulted in true
          for f,l in zip(feature, labels):
             # label is true
@@ -77,24 +74,55 @@ class decisionTree(object):
                v = d[f]
                v[1] += 1
                d[f] = v
-
          impurity = self.getImpurity(d)
-         #print(impurity)
-
          impur[f_idx] = [impurity, feature]
          if impurity < minImp:
             minFeature = feature
             minImp     = impurity
             minIdx     = f_idx
             minD       = d
-
       return minFeature, minImp, minIdx, minD
 
    def isTree(self):
       return self.tree
+   
+   def removeF(self, features, minIdx):
+      start = features[:,:minIdx]
+      end   = features[:,minIdx+1:]
+      features = np.concatenate([start, end], axis=1)
+      return features
 
-   def split(features, labels):
-      pass
+   def buildTree(self, current_root, features, labels):
+
+      minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+
+      # remove the feature we decided to split on
+      features = self.removeF(features, minIdx)
+
+      if features.shape[1] == 1: pass
+      else:
+         print('current_root:',current_root.value)
+
+         # insert nodes into the tree
+         for fv in current_root.branchValues:
+            n = Node()
+            n.edge = fv
+         
+            if self.isPure(minD[fv]):
+               print('Node',minD[fv],'is pure, inserting as a leaf')
+               n.isLeaf = True
+               n.value = np.argmax(minD[fv])
+               current_root.insertNode(n)
+            else:
+               #TODO - ended here
+               print('Node',minD[fv],'is NOT pure, inserting then recursing.')
+               current_root.insertNode(n)
+               current_root = n
+               self.buildTree(current_root, features, labels)
+
+
+
+
 
    '''
       Creates a decision tree
@@ -103,29 +131,34 @@ class decisionTree(object):
    '''
    def fit(self, features, labels):
       
-      if not self.isTree():
-         print('No tree, creating root...')
-         # node is created by default to not be a leaf
-         minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
-         root = Node()
-         root.isRoot = True
-         root.value  = minIdx
-         self.tree   = True
-      else:
-         print('Existing tree, current root:',root)
-         minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
-         root = Node()
-         root.value  = minIdx
+      #if not self.isTree():
+      #print('No tree, creating root...')
+      # node is created by default to not be a leaf
 
-      # need to remove the feature split on from the feature array
+      # create a root node
+      root = Node()
+      root.isRoot = True
+
+      # get the feature to split on first
+      minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+      root.value  = minIdx
+      root.branchValues = list(set(minFeature))
+
+      # now that we have a root node, need to recursively insert children
+      self.buildTree(root, features, labels)
+
+      print(root.getChildren())
+      print('Done!')
+      exit()
+
+      '''
+      # if there are no more features to split on then we're done
       if features.shape[1] == 1:
          print('Done')
          exit()
 
       # get rid of the feature that we split on
-      start = features[:,:minIdx]
-      end   = features[:,minIdx+1:]
-      features = np.concatenate([start, end], axis=1)
+      features = self.removeF(features, minIdx)
 
       # featureVals are numerical representations of the strings like None, Some, Full, et
       featureVals = list(set(minFeature))
@@ -133,7 +166,6 @@ class decisionTree(object):
       # for each featureVal, create a node and attach it to the root - if it isn't a leaf, recurse
       for fv in featureVals:
          print('fv:',fv)
-         exit()
          # create a node as a child of the current root node
          n = Node()
          n.edge = fv # set the edge to the feature value
@@ -143,11 +175,14 @@ class decisionTree(object):
             n.isLeaf = True
             n.value  = np.argmax(minD[fv])
             root = root.insertNode(n)
-            print('children:',root.getParent())
+            print('parent:',root.getParent())
+            exit()
          else:
             print('Node',minD[fv],'is NOT pure...splitting on best feature')
             root = root.insertNode(n)
             self.fit(features, labels)
+      '''
+
 
 
 # For all Nodes, the value of the edge is stored in the parent
@@ -156,6 +191,7 @@ class Node(object):
    def __init__(self):
       self.children = []
       self.parent   = []
+      self.branchValues = []
       self.isRoot   = False
       self.isLeaf   = False
       self.value    = None # 0 or 1 if it is a leaf
@@ -163,7 +199,6 @@ class Node(object):
 
    def insertNode(self, obj):
       self.children.append(obj)
-      return obj
 
    def getChildren(self):
       return self.children
