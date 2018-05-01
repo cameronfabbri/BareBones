@@ -94,7 +94,7 @@ class decisionTree(object):
       return self.tree
 
    def split(features, labels):
-      return pass
+      pass
 
    '''
       Creates a decision tree
@@ -102,13 +102,7 @@ class decisionTree(object):
       2. Split on feature with least impurity
    '''
    def fit(self, features, labels):
-      '''
-         get root node of the entire tree. From here we will recurse down.
-         create a root node - a node's value is the feature name
-         I think here we should check if the tree is empty. If it is, then
-         create a true root node. If not, then create another node, but have
-         it be the 'root', as in we will be inserting children to that node.
-      '''
+      
       if not self.isTree():
          print('No tree, creating root...')
          # node is created by default to not be a leaf
@@ -123,14 +117,12 @@ class decisionTree(object):
          root = Node()
          root.value  = minIdx
 
-      # TODO need to figure out this floating root variable
-      
       # need to remove the feature split on from the feature array
       if features.shape[1] == 1:
          print('Done')
          exit()
 
-      # get rid of the feature
+      # get rid of the feature that we split on
       start = features[:,:minIdx]
       end   = features[:,minIdx+1:]
       features = np.concatenate([start, end], axis=1)
@@ -140,6 +132,8 @@ class decisionTree(object):
 
       # for each featureVal, create a node and attach it to the root - if it isn't a leaf, recurse
       for fv in featureVals:
+         print('fv:',fv)
+         exit()
          # create a node as a child of the current root node
          n = Node()
          n.edge = fv # set the edge to the feature value
