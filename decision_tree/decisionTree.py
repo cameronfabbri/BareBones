@@ -93,6 +93,9 @@ class decisionTree(object):
    def isTree(self):
       return self.tree
 
+   def split(features, labels):
+      return pass
+
    '''
       Creates a decision tree
       1. Find impurity for all remaining features
@@ -132,29 +135,15 @@ class decisionTree(object):
       end   = features[:,minIdx+1:]
       features = np.concatenate([start, end], axis=1)
 
-      '''
-         Now that we have the feature with the smallest impurity,
-         we want to construct that as a node and split on that feature.
-      '''
-      #print('index:',minIdx)
-      #print('minFeature:',minFeature)
-      #print('impurity:',minImp)
-      #print('d:',minD,'\n')
-
       # featureVals are numerical representations of the strings like None, Some, Full, et
       featureVals = list(set(minFeature))
 
       # for each featureVal, create a node and attach it to the root - if it isn't a leaf, recurse
-      #I think there's an issue here - it may never get to other features after recursing
       for fv in featureVals:
-
          # create a node as a child of the current root node
          n = Node()
          n.edge = fv # set the edge to the feature value
          
-         '''
-            Here the node is pure, so we insert it as a binary leaf node.
-         '''
          if self.isPure(minD[fv]):
             print('Node',minD[fv],'is pure, inserting as a leaf')
             n.isLeaf = True
@@ -167,9 +156,7 @@ class decisionTree(object):
             self.fit(features, labels)
 
 
-'''
-   For all Nodes, the value of the edge is stored in the parent
-'''
+# For all Nodes, the value of the edge is stored in the parent
 class Node(object):
 
    def __init__(self):
