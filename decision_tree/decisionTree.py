@@ -103,23 +103,23 @@ class decisionTree(object):
          print('no more features to split on')
          pass
       else:
-         print('current_root:',current_root)
+         print('current_root:',current_root.value)
 
          # insert nodes into the tree
          for fv in current_root.branchValues:
+            #print(minD[fv])
             n = Node()
             n.edge = fv
-         
             if self.isPure(minD[fv]):
-               print('Node',minD[fv],'is pure, inserting as a leaf')
                n.isLeaf = True
                n.value = np.argmax(minD[fv])
+               print('Node',n.value,'is pure, inserting as a leaf')
                current_root.insertNode(n)
             else:
-               print('Node',minD[fv],'is NOT pure, inserting then recursing.')
                current_root.insertNode(n)
                n.value = minIdx
                current_root = n
+               print('Node',n.value,'is NOT pure, inserting then recursing.')
                self.buildTree(current_root, features, labels)
 
 
@@ -140,38 +140,6 @@ class decisionTree(object):
       #print(root.getChildren())
       print('Done!')
       exit()
-
-      '''
-      # if there are no more features to split on then we're done
-      if features.shape[1] == 1:
-         print('Done')
-         exit()
-
-      # get rid of the feature that we split on
-      features = self.removeF(features, minIdx)
-
-      # featureVals are numerical representations of the strings like None, Some, Full, et
-      featureVals = list(set(minFeature))
-
-      # for each featureVal, create a node and attach it to the root - if it isn't a leaf, recurse
-      for fv in featureVals:
-         print('fv:',fv)
-         # create a node as a child of the current root node
-         n = Node()
-         n.edge = fv # set the edge to the feature value
-         
-         if self.isPure(minD[fv]):
-            print('Node',minD[fv],'is pure, inserting as a leaf')
-            n.isLeaf = True
-            n.value  = np.argmax(minD[fv])
-            root = root.insertNode(n)
-            print('parent:',root.getParent())
-            exit()
-         else:
-            print('Node',minD[fv],'is NOT pure...splitting on best feature')
-            root = root.insertNode(n)
-            self.fit(features, labels)
-      '''
 
 
 # For all Nodes, the value of the edge is stored in the parent
