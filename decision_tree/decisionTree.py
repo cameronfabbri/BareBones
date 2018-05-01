@@ -79,7 +79,10 @@ class decisionTree(object):
          if impurity < minImp:
             minFeature = feature
             minImp     = impurity
-            minIdx     = f_idx
+            #minIdx     = f_idx
+            minIdx = self.fdict[feature]
+            print(minIdx)
+            exit()
             minD       = d
       return minFeature, minImp, minIdx, minD
 
@@ -124,7 +127,10 @@ class decisionTree(object):
 
 
    def fit(self, features, labels):
-      
+
+      # need to keep a dictionary of index:feature
+      # because we delete things from the feature list
+
       # create a root node
       root = Node()
       root.isRoot = True
