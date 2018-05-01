@@ -1,6 +1,7 @@
 import numpy as np
 from decisionTree import *
 
+# it's okay there are duplicate 0s and 1s etc, same happens with mnist type data
 data_dict = {
    'Yes':1,
    'No':0,
@@ -44,9 +45,9 @@ if __name__ == '__main__':
    labels = np.asarray(labels)
 
    d = decisionTree()
+   print('features:')
    print(features)
    print()
-   exit()
    d.fit(features, labels)
 
    d.test(features, labels)

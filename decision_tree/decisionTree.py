@@ -127,7 +127,7 @@ class decisionTree(object):
 
    def fit(self, features, labels):
 
-      # create a root node
+      # create a root node - automatically no parents
       root = Node()
       root.isRoot = True
 
@@ -135,6 +135,9 @@ class decisionTree(object):
       minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
       root.value  = minIdx
       root.branchValues = list(set(minFeature))
+      
+      # remove the feature we decided to split on
+      features = self.removeF(features, minIdx)
 
       # now that we have a root node, need to recursively insert children
       self.buildTree(root, features, labels)
@@ -148,6 +151,7 @@ class decisionTree(object):
 class Node(object):
 
    def __init__(self):
+      self.label    = '' # need a label for every node....do we though?
       self.children = [] # the children of the node
       self.parent   = [] # the (single) parent of the node
       self.branchValues = [] # values of the child branches which are the values of the features like full, some, none
