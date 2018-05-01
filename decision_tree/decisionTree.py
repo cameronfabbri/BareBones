@@ -53,7 +53,13 @@ class decisionTree(object):
    '''
    def findFeature(self, features, labels):
       minImp = float('inf')
-      for f_idx, feature in enumerate(features.T):
+      #for f_idx, feature in enumerate(features.T):
+      for f_idx, feature in enumerate(features): # already transposed
+         # if it is already in the tree, continue
+         feature = feature[0]
+         inTree  = feature[1]
+         if inTree == 1:
+            continue
          total = len(feature)
          numU  = len(set(feature))
          featureVals = list(set(feature))
@@ -78,6 +84,10 @@ class decisionTree(object):
             minImp     = impurity
             minIdx     = f_idx
             minD       = d
+
+      # mark that we have used this in the tree already, so won't split on it again
+      features[minIdx][1] = 1
+
       return minFeature, minImp, minIdx, minD
 
    def isTree(self):
@@ -120,7 +130,15 @@ class decisionTree(object):
                self.buildTree(current_root, features, labels)
 
 
-   def fit(self, features, labels):
+   def fit(self, inFeatures, labels):
+
+      # make features into a tuple of [feature, used] so we know if it's used yet or not
+
+      features = []
+      for f in inFeatures.T:
+         features.append([f,0])
+
+      #features = np.asarray(features)
 
       # create a root node - automatically no parents
       root = Node()
@@ -140,6 +158,12 @@ class decisionTree(object):
       #print(root.getChildren())
       print('Done!')
       exit()
+
+
+class Feature(object):
+
+   def __init__(self, features, labels):
+      self.feature = 1
 
 
 # For all Nodes, the value of the edge is stored in the parent.
