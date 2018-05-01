@@ -103,7 +103,7 @@ class decisionTree(object):
          print('no more features to split on')
          pass
       else:
-         print('current_root:',current_root.value)
+         print('current_root:',current_root)
 
          # insert nodes into the tree
          for fv in current_root.branchValues:
@@ -118,7 +118,7 @@ class decisionTree(object):
             else:
                print('Node',minD[fv],'is NOT pure, inserting then recursing.')
                current_root.insertNode(n)
-               n.value = minIdx # this may be messed up because the indexs change I think
+               n.value = minIdx
                current_root = n
                self.buildTree(current_root, features, labels)
 
