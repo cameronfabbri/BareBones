@@ -174,7 +174,6 @@ class decisionTree(object):
       '''
 
 
-
 # For all Nodes, the value of the edge is stored in the parent
 class Node(object):
 
