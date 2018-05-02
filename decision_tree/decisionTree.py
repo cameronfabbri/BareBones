@@ -112,15 +112,13 @@ class decisionTree(object):
             if self.isPure(minD[fv]):
                n.isLeaf = True
                n.value = np.argmax(minD[fv])
-               n.label = np.argmax(minD[fv]) # set the label to be the value as well just because
-               print('Node',n.value,'is pure, inserting as a leaf')
+               print('Node is pure, inserting as a leaf')
                current_root.insertNode(n)
             else:
                current_root.insertNode(n)
-               n.label = -1 # needs to be the index
+               #n.label = -1 # needs to be the index
                current_root = n
-               #root.branchValues = list(set(minFeature))
-               print('Node',n.label,'is NOT pure, inserting then recursing.')
+               print('Node is NOT pure, inserting then recursing.')
                self.buildTree(current_root, features, labels)
       else:
          print('no more features to split on')
@@ -138,6 +136,9 @@ class decisionTree(object):
       # create a root node - automatically no parents
       root = Node()
       root.isRoot = True
+
+      # TODO these lines below, the last two may need to go into buildTree, not sure.
+      # gotta fix something there
 
       # get the feature to split on first
       minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
