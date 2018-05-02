@@ -45,9 +45,9 @@ if __name__ == '__main__':
    labels = np.asarray(labels)
 
    d = decisionTree()
-   print('features:')
-   print(features)
-   print()
+   #print('features:')
+   #print(features)
+   #print()
    d.fit(features, labels)
 
    d.test(features, labels)
