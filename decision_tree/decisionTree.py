@@ -53,11 +53,16 @@ class decisionTree(object):
    '''
    def findFeature(self, features, labels):
       minImp = float('inf')
+      minIdx = -1
       #for f_idx, feature in enumerate(features.T):
-      for f_idx, feature in enumerate(features): # already transposed
+      for f_idx, f in enumerate(features): # already transposed
+         #print(feature)
+         #print(feature[0])
+         #print(feature[1])
+         #print()
          # if it is already in the tree, continue
-         feature = feature[0]
-         inTree  = feature[1]
+         inTree  = f[1]
+         feature = f[0]
          if inTree == 1:
             continue
          total = len(feature)
@@ -85,9 +90,11 @@ class decisionTree(object):
             minIdx     = f_idx
             minD       = d
 
+      if minIdx == -1:
+         print('all features have been used')
+         return None, None, None, None
       # mark that we have used this in the tree already, so won't split on it again
       features[minIdx][1] = 1
-
       return minFeature, minImp, minIdx, minD
 
    def isTree(self):
@@ -99,13 +106,15 @@ class decisionTree(object):
 
       featuresLeft = 0
       for f in features:
-         if f[1] == 1:
+         if f[1] == 0:
             featuresLeft+=1
-      
+
       # check if there are any features left to split on
       if featuresLeft > 0:
-         print('current_root:',current_root.label)
-         for fv in current_root.branchValues:
+         #print('current_root:',current_root.label)
+         print('current_root:',current_root)
+         #for fv in current_root.branchValues:
+         for fv in list(set(minFeature)):
             n = Node()
             n.edge = fv
             print(minD[fv])
@@ -122,6 +131,7 @@ class decisionTree(object):
                self.buildTree(current_root, features, labels)
       else:
          print('no more features to split on')
+         exit()
          pass
 
 
@@ -141,9 +151,9 @@ class decisionTree(object):
       # gotta fix something there
 
       # get the feature to split on first
-      minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
-      root.label  = minIdx
-      root.branchValues = list(set(minFeature))
+      #minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+      #root.label  = minIdx
+      #root.branchValues = list(set(minFeature))
       
       # now that we have a root node, need to recursively insert children
       self.buildTree(root, features, labels)
