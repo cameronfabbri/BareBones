@@ -93,25 +93,19 @@ class decisionTree(object):
    def isTree(self):
       return self.tree
    
-   def removeF(self, features, minIdx):
-      start = features[:,:minIdx]
-      end   = features[:,minIdx+1:]
-      features = np.concatenate([start, end], axis=1)
-      return features
-
    def buildTree(self, current_root, features, labels):
 
       minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
 
-      # remove the feature we decided to split on
-      features = self.removeF(features, minIdx)
 
-      if features.shape[1] == 1:
-         print('no more features to split on')
-         pass
-      else:
+      featuresLeft = 0
+      for f in features:
+         if f[1] == 1:
+            featuresLeft+=1
+      
+      # check if there are any features left to split on
+      if featuresLeft > 0:
          print('current_root:',current_root.value)
-
          # insert nodes into the tree
          for fv in current_root.branchValues:
             #print(minD[fv])
@@ -128,6 +122,10 @@ class decisionTree(object):
                current_root = n
                print('Node',n.value,'is NOT pure, inserting then recursing.')
                self.buildTree(current_root, features, labels)
+      else:
+         print('no more features to split on')
+         pass
+
 
 
    def fit(self, inFeatures, labels):
@@ -146,12 +144,9 @@ class decisionTree(object):
 
       # get the feature to split on first
       minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
-      root.value  = minIdx
+      root.label  = str(minIdx)
       root.branchValues = list(set(minFeature))
       
-      # remove the feature we decided to split on
-      features = self.removeF(features, minIdx)
-
       # now that we have a root node, need to recursively insert children
       self.buildTree(root, features, labels)
 
@@ -170,13 +165,13 @@ class Feature(object):
 class Node(object):
 
    def __init__(self):
-      self.label    = '' # need a label for every node....do we though?
+      self.label    = None # need a label for every node that isn't a leaf so we know which feature to split on
       self.children = [] # the children of the node
       self.parent   = [] # the (single) parent of the node
       self.branchValues = [] # values of the child branches which are the values of the features like full, some, none
       self.isRoot   = False # if it is the main root node of the entire tree
       self.isLeaf   = False # if it is a leaf node or not, meaning it is pure
-      self.value    = None # contains the numerical value of the feature (0 for No, etc), or a 0 or 1 if it is a leaf
+      self.value    = None # contains a 0 or 1 if it is a leaf
       self.edge     = None # single value of the only edge coming into the node
 
    def insertNode(self, obj):
