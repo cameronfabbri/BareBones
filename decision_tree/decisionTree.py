@@ -56,15 +56,9 @@ class decisionTree(object):
       minIdx = -1
       #for f_idx, feature in enumerate(features.T):
       for f_idx, f in enumerate(features): # already transposed
-         #print(feature)
-         #print(feature[0])
-         #print(feature[1])
-         #print()
-         # if it is already in the tree, continue
-         inTree  = f[1]
          feature = f[0]
-         if inTree == 1:
-            continue
+         inTree  = f[1]
+         if inTree == 1: continue
          total = len(feature)
          numU  = len(set(feature))
          featureVals = list(set(feature))
@@ -99,10 +93,17 @@ class decisionTree(object):
 
    def isTree(self):
       return self.tree
-   
+
+   # TODO
+   '''
+      Apparently you can only use features that exist in the parent.
+      So look at the tree in the AI book, and why Hungry has a pure leaf.
+   '''
    def buildTree(self, current_root, features, labels):
 
       minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+      print()
+      print('minIdx:',minIdx)
 
       featuresLeft = 0
       for f in features:
