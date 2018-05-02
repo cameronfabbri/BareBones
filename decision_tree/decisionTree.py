@@ -108,6 +108,7 @@ class decisionTree(object):
          for fv in current_root.branchValues:
             n = Node()
             n.edge = fv
+            print(minD[fv])
             if self.isPure(minD[fv]):
                n.isLeaf = True
                n.value = np.argmax(minD[fv])
@@ -116,10 +117,10 @@ class decisionTree(object):
                current_root.insertNode(n)
             else:
                current_root.insertNode(n)
-               n.value = minIdx
+               n.label = -1 # needs to be the index
                current_root = n
                #root.branchValues = list(set(minFeature))
-               print('Node',n.value,'is NOT pure, inserting then recursing.')
+               print('Node',n.label,'is NOT pure, inserting then recursing.')
                self.buildTree(current_root, features, labels)
       else:
          print('no more features to split on')
