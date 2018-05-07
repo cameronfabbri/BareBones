@@ -17,7 +17,7 @@ class decisionTree(object):
    def __init__(self, depth=4, method='classification'):
       self.depth  = depth
       self.method = method
-      self.tree   = False
+      #self.tree   = False
 
    def test(features, labels):
       return NotImplementedError
@@ -91,8 +91,8 @@ class decisionTree(object):
       features[minIdx][1] = 1
       return minFeature, minImp, minIdx, minD
 
-   def isTree(self):
-      return self.tree
+   #def isTree(self):
+   #   return self.tree
 
    # TODO
    '''
