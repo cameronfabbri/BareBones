@@ -101,7 +101,10 @@ class decisionTree(object):
    '''
    def buildTree(self, current_root, features, labels):
 
-      minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
+      # this features variable must be from the current root only
+      print(current_root)
+      
+      minFeature, minImp, minIdx, minD = self.findFeature(current_root.features, labels)
       print()
       print('minIdx:',minIdx)
 
@@ -147,19 +150,11 @@ class decisionTree(object):
       # create a root node - automatically no parents
       root = Node()
       root.isRoot = True
+      root.features = features
 
-      # TODO these lines below, the last two may need to go into buildTree, not sure.
-      # gotta fix something there
-
-      # get the feature to split on first
-      #minFeature, minImp, minIdx, minD = self.findFeature(features, labels)
-      #root.label  = minIdx
-      #root.branchValues = list(set(minFeature))
-      
       # now that we have a root node, need to recursively insert children
       self.buildTree(root, features, labels)
 
-      #print(root.getChildren())
       print('Done!')
       exit()
 
@@ -174,6 +169,7 @@ class Feature(object):
 class Node(object):
 
    def __init__(self):
+      self.features = [] # list of features available to that node
       self.label    = None # need a label for every node that isn't a leaf so we know which feature to split on
       self.children = [] # the children of the node
       self.parent   = None # the (single) parent of the node
