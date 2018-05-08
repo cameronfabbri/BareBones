@@ -1,5 +1,6 @@
 import numpy as np
-from decisionTree import *
+# from decisionTree import *
+from dtree4 import fit
 
 # it's okay there are duplicate 0s and 1s etc, same happens with mnist type data
 data_dict = {
@@ -20,6 +21,8 @@ data_dict = {
    '30-60':2,
    '>60':3,
    }
+
+feature_mapping = [ 'Alt', 'Bar', 'Fri', 'Hun', 'Pat', 'Price', 'Rain', 'Res', 'Type', 'Est' ]
 
 '''
    Converts string data to numeric.
@@ -44,11 +47,11 @@ if __name__ == '__main__':
    features = np.asarray(features)
    labels = np.asarray(labels)
 
-   d = decisionTree()
+   # d = decisionTree()
    #print('features:')
    #print(features)
    #print()
-   d.fit(features, labels)
+   # d.fit(features, labels)
 
-   d.test(features, labels)
-
+   # d.test(features, labels)
+   dt = fit(features, labels)
