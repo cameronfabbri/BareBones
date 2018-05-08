@@ -52,9 +52,9 @@ class decisionTree(object):
       Given features and labels, finds the feature to split on
    '''
    def findFeature(self, features, labels):
+      nodeFeatures = {}
       minImp = float('inf')
       minIdx = -1
-      #for f_idx, feature in enumerate(features.T):
       for f_idx, f in enumerate(features): # already transposed
          feature = f[0]
          inTree  = f[1]
@@ -83,13 +83,12 @@ class decisionTree(object):
             minImp     = impurity
             minIdx     = f_idx
             minD       = d
-
       if minIdx == -1:
          print('all features have been used')
          return None, None, None, None
       # mark that we have used this in the tree already, so won't split on it again
       features[minIdx][1] = 1
-      return minFeature, minImp, minIdx, minD
+      return minFeature, minImp, minIdx, minD, nodeFeatures
 
    def isTree(self):
       return self.tree
@@ -101,12 +100,12 @@ class decisionTree(object):
    '''
    def buildTree(self, current_root, features, labels):
 
-      # this features variable must be from the current root only
-      print(current_root)
-      
-      minFeature, minImp, minIdx, minD = self.findFeature(current_root.features, labels)
+      minFeature, minImp, minIdx, minD, nodeFeatures = self.findFeature(current_root.features, labels)
       print()
       print('minIdx:',minIdx)
+      print(minFeature)
+      print(nodeFeatures)
+      exit()
 
       featuresLeft = 0
       for f in features:
@@ -115,23 +114,25 @@ class decisionTree(object):
 
       # check if there are any features left to split on
       if featuresLeft > 0:
-         #print('current_root:',current_root.label)
          print('current_root:',current_root)
-         #for fv in current_root.branchValues:
          for fv in list(set(minFeature)):
             n = Node()
             n.edge = fv
             print(minD[fv])
             if self.isPure(minD[fv]):
+               print('Node is pure, inserting as a leaf')
                n.isLeaf = True
                n.value = np.argmax(minD[fv])
-               print('Node is pure, inserting as a leaf')
                current_root.insertNode(n)
+               #current_root.features = 
             else:
+               print('Node is NOT pure, inserting then recursing.')
                current_root.insertNode(n)
                #n.label = -1 # needs to be the index
                current_root = n
-               print('Node is NOT pure, inserting then recursing.')
+               print(minD)
+               exit()
+               #current_root.features = 
                self.buildTree(current_root, features, labels)
       else:
          print('no more features to split on')
@@ -157,6 +158,7 @@ class decisionTree(object):
 
       print('Done!')
       exit()
+      return root
 
 
 class Feature(object):
