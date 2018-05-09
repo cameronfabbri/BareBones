@@ -54,7 +54,7 @@ def _fit(X, y, prev_splits, depth):
     for (x,val) in prev_splits:
         idx = idx & (X[:,x] == val)
 
-    if depth == 0 or len(np.unique(y[idx])) <= 1:
+    if depth == 1 or len(np.unique(y[idx])) <= 1:
         # get leaf node
         ans = stats.mode(y[idx])[0][0] if len(y[idx]) > 0 else 1
         dt = DecisionTree(ans)
@@ -71,7 +71,7 @@ def _fit(X, y, prev_splits, depth):
 
 
 def fit(X, y):
-    dt = _fit(X, y, [], 3)
+    dt = _fit(X, y, [], 4)
     # import ipdb; ipdb.set_trace()
     res = dt.test(X, y)
     print(sum(res)/len(res))
