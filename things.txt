@@ -1,0 +1,7 @@
+Things which I need to know
+
+momentum
+backprop
+sift features
+orb detector
+hog features
