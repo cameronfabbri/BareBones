@@ -14,10 +14,16 @@ from linearRegression.linearRegression import LinearRegression
 
 if __name__ == '__main__':
 
+    #d = Data()
+    #d.load_simple()
+    #X = d.data
+    #y = d.target
+    
     iris = Data()
     iris.load_iris()
     X = iris.data
     y = iris.target
+    
     # get a random train/test split
     num_data = len(y)
     train_num = math.floor(0.8*num_data)

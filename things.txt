@@ -1,5 +1,6 @@
-Things which I need to know
+Things which I need to know/do
 
+write up a vector/matrix class
 momentum
 backprop
 sift features
