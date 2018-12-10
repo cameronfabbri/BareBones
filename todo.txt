@@ -1,5 +1,7 @@
 Things which I need to know/do:
 
+For everything I implement, also upload a complimentary derivation I did in latex.
+
 gradient descent on simple gaussian distribution for estimating the
 parameters of some dataset - think height example
 
