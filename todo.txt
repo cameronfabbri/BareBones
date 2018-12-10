@@ -14,8 +14,13 @@ covariance matrix
 normal distribution function
 random sample
 tsne
-momentum
-backprop
 sift features
 orb detector
 hog features
+
+Neural Network Todos:
+- batch norm
+- momentum
+- backprop
+- layer norm
+- dropout
