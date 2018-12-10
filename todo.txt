@@ -1,0 +1,19 @@
+Things which I need to know/do:
+
+gradient descent on simple gaussian distribution for estimating the
+parameters of some dataset - think height example
+
+write up a vector/matrix class with everything like inverse, transpose,
+multiplication, etc.
+
+Find a good plotting library to visualize results and stuff.
+
+covariance matrix
+normal distribution function
+random sample
+tsne
+momentum
+backprop
+sift features
+orb detector
+hog features
